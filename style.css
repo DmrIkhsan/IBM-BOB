@@ -1,0 +1,683 @@
+/* =============================================
+   Audio Gear & PEQ Tracker — Custom Styles
+   Pendamping Tailwind CSS untuk estetika
+   dark-mode "audiophile" premium
+   ============================================= */
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg:        #0F172A;
+  --color-surface:   #131F33;
+  --color-surface-2: #1A2740;
+  --color-border:    #1E3048;
+  --color-amber:     #FBBF24;
+  --color-amber-glow: rgba(251,191,36,0.25);
+  --color-cyan:      #22D3EE;
+  --color-cyan-glow: rgba(34,211,238,0.2);
+  --color-text:      #E2E8F0;
+  --color-muted:     #64748B;
+  --radius-card:     1rem;           /* 16px */
+  --transition:      200ms ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  /* Subtle noise texture via SVG untuk nuansa premium */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.022'/%3E%3C/svg%3E");
+}
+
+/* Hide horizontal scrollbar untuk tab filter */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- Tab Filter ---------- */
+.filter-tab {
+  color: #64748B;
+  border-color: #1E3048;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.filter-tab:hover {
+  color: #CBD5E1;
+  border-color: #334155;
+  background-color: #1E293B;
+}
+
+.active-tab {
+  color: #0F172A !important;
+  background-color: var(--color-amber) !important;
+  border-color: var(--color-amber) !important;
+  box-shadow: 0 0 14px var(--color-amber-glow);
+}
+
+/* ---------- Filter Bar: Status Row ---------- */
+.filter-row-label {
+  font-size: 0.6875rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #475569;
+  margin-right: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Tombol filter status — aksen cyan */
+.filter-tab-status {
+  color: #64748B;
+  border-color: #1E3048;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.filter-tab-status:hover {
+  color: #CBD5E1;
+  border-color: #334155;
+  background-color: #1E293B;
+}
+
+.active-status {
+  color: #0F172A !important;
+  background-color: var(--color-cyan) !important;
+  border-color: var(--color-cyan) !important;
+  box-shadow: 0 0 14px var(--color-cyan-glow);
+}
+
+/* ---------- Gear Card ---------- */
+.gear-card {
+  background: linear-gradient(145deg, #131F33 0%, #0F1929 100%);
+  border: 1px solid #1E3048;
+  border-radius: var(--radius-card);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  cursor: default;
+}
+
+/* Glow strip kiri sebagai aksen warna */
+.gear-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 4px 0 0 4px;
+  background: var(--color-amber);
+  opacity: 0.7;
+  transition: opacity var(--transition);
+}
+
+.gear-card.status-arsip::before {
+  background: #475569;
+  opacity: 0.5;
+}
+
+.gear-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(251,191,36,0.3);
+  box-shadow:
+    0 0 0 1px rgba(251,191,36,0.08),
+    0 8px 24px rgba(0,0,0,0.35),
+    0 0 32px rgba(251,191,36,0.06);
+}
+
+.gear-card.status-arsip:hover {
+  border-color: rgba(100,116,139,0.3);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.card-name {
+  font-size: 0.9375rem;   /* 15px */
+  font-weight: 600;
+  color: #F1F5F9;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.card-category-badge {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: 0.6875rem;   /* 11px */
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+}
+
+/* Warna badge per kategori */
+.badge-iem {
+  background-color: rgba(251,191,36,0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(251,191,36,0.25);
+}
+.badge-dac {
+  background-color: rgba(34,211,238,0.12);
+  color: #22D3EE;
+  border: 1px solid rgba(34,211,238,0.22);
+}
+.badge-eartips {
+  background-color: rgba(167,139,250,0.12);
+  color: #A78BFA;
+  border: 1px solid rgba(167,139,250,0.22);
+}
+
+/* Card Keterangan (deskripsi singkat) */
+.card-desc {
+  font-size: 0.75rem;
+  color: #64748B;
+  line-height: 1.55;
+  word-break: break-word;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  border-top: 1px solid #1E3048;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.status-badge::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-aktif {
+  color: #4ADE80;
+}
+.status-aktif::before {
+  background-color: #4ADE80;
+  box-shadow: 0 0 6px rgba(74,222,128,0.5);
+}
+
+.status-arsip {
+  color: #64748B;
+}
+.status-arsip::before {
+  background-color: #475569;
+}
+
+/* Card Action Buttons */
+.card-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btn-edit, .btn-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn-edit {
+  background-color: rgba(34,211,238,0.1);
+  color: #22D3EE;
+  border-color: rgba(34,211,238,0.2);
+}
+.btn-edit:hover {
+  background-color: rgba(34,211,238,0.2);
+  box-shadow: 0 0 10px rgba(34,211,238,0.2);
+}
+
+.btn-delete {
+  background-color: rgba(248,113,113,0.1);
+  color: #F87171;
+  border-color: rgba(248,113,113,0.2);
+}
+.btn-delete:hover {
+  background-color: rgba(248,113,113,0.2);
+  box-shadow: 0 0 10px rgba(248,113,113,0.2);
+}
+
+.btn-edit:active, .btn-delete:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Form Inputs ---------- */
+.form-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #94A3B8;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.02em;
+}
+
+.form-input {
+  width: 100%;
+  background-color: #0F172A;
+  border: 1px solid #1E3048;
+  color: #E2E8F0;
+  padding: 0.6rem 0.85rem;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-input::placeholder {
+  color: #334155;
+}
+
+.form-input:focus {
+  border-color: rgba(251,191,36,0.5);
+  box-shadow: 0 0 0 3px rgba(251,191,36,0.08);
+}
+
+select.form-input {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2364748B'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.15rem;
+  padding-right: 2.5rem;
+}
+
+option {
+  background-color: #131F33;
+  color: #E2E8F0;
+}
+
+textarea.form-input {
+  min-height: 100px;
+}
+
+/* ---------- Radio Buttons Custom ---------- */
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-custom {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #334155;
+  background-color: #0F172A;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-amber);
+  transition: transform 150ms ease;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+  border-color: var(--color-amber);
+  box-shadow: 0 0 8px var(--color-amber-glow);
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ---------- Modal ---------- */
+#modal-overlay {
+  animation: fadeIn 150ms ease forwards;
+}
+
+#modal-overlay.hidden {
+  display: none;
+}
+
+.modal-enter {
+  animation: slideUp 200ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- Toast Notification ---------- */
+#toast {
+  min-width: 220px;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+#toast.toast-show {
+  display: flex !important;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#toast.toast-hide {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* ---------- Stat Bar ---------- */
+#stat-bar {
+  color: #475569;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Empty State ---------- */
+#empty-state.show {
+  display: flex !important;
+}
+
+/* ---------- Scrollbar Global ---------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E3048;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* ---------- Responsive Tweaks ---------- */
+@media (max-width: 640px) {
+  .gear-card {
+    padding: 1rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PEQ TABLE — 10-Band Parametric EQ
+   ───────────────────────────────────────────── */
+
+/* Wrapper pembungkus tabel dengan border radius */
+.peq-table-wrap {
+  background: linear-gradient(145deg, #0D1929 0%, #0B1520 100%);
+}
+
+/* Tabel utama */
+.peq-table {
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+/* Header cell */
+.peq-th {
+  padding: 0.6rem 0.85rem;
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #475569;
+  background-color: rgba(0,0,0,0.25);
+  border-bottom: 1px solid #1E3048;
+  white-space: nowrap;
+}
+
+/* Body cell */
+.peq-td {
+  padding: 0.45rem 0.75rem;
+  border-bottom: 1px solid rgba(30,48,72,0.6);
+  vertical-align: middle;
+}
+
+/* Nomor band */
+.peq-band-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.2);
+  color: #FBBF24;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Row hover */
+.peq-row {
+  transition: background-color 150ms ease;
+}
+.peq-row:hover {
+  background-color: rgba(251,191,36,0.03);
+}
+.peq-row:last-child .peq-td {
+  border-bottom: none;
+}
+
+/* Input di dalam tabel */
+.peq-input {
+  background-color: rgba(0,0,0,0.3);
+  border: 1px solid #1E3048;
+  color: #CBD5E1;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  width: 90px;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  -moz-appearance: textfield;
+}
+
+.peq-input::-webkit-inner-spin-button,
+.peq-input::-webkit-outer-spin-button {
+  opacity: 0.4;
+}
+
+.peq-input:focus {
+  border-color: rgba(251,191,36,0.4);
+  box-shadow: 0 0 0 2px rgba(251,191,36,0.06);
+}
+
+/* Disabled gain field */
+.peq-input.peq-disabled,
+.peq-input:disabled {
+  color: #334155;
+  cursor: not-allowed;
+  border-color: #0F1E2E;
+  background-color: rgba(0,0,0,0.15);
+}
+
+/* Select di dalam tabel */
+.peq-select {
+  background-color: rgba(0,0,0,0.3);
+  border: 1px solid #1E3048;
+  color: #CBD5E1;
+  padding: 0.3rem 1.8rem 0.3rem 0.5rem;
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2364748B'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.4rem center;
+  background-size: 1rem;
+  min-width: 110px;
+  transition: border-color 150ms ease;
+}
+
+.peq-select:focus {
+  border-color: rgba(251,191,36,0.4);
+}
+
+/* Toggle switch (Enabled) */
+.peq-toggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.peq-toggle-track {
+  display: block;
+  width: 36px;
+  height: 20px;
+  border-radius: 9999px;
+  background-color: #1E3048;
+  border: 1px solid #334155;
+  position: relative;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.peq-toggle-thumb {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #475569;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 200ms ease, background-color 200ms ease;
+}
+
+.peq-enabled:checked + .peq-toggle-track {
+  background-color: rgba(251,191,36,0.25);
+  border-color: rgba(251,191,36,0.5);
+}
+
+.peq-enabled:checked + .peq-toggle-track .peq-toggle-thumb {
+  transform: translateX(16px);
+  background-color: #FBBF24;
+}
+
+/* ─────────────────────────────────────────────
+   PEQ PRESET CARDS (daftar tersimpan)
+   ───────────────────────────────────────────── */
+
+.peq-preset-card {
+  background: linear-gradient(145deg, #0E1C30 0%, #0C1624 100%);
+  border: 1px solid #1E3048;
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  transition: border-color 150ms ease;
+}
+
+.peq-preset-card:hover {
+  border-color: rgba(34,211,238,0.2);
+}
+
+/* Tag nama gear dalam preset card */
+.preset-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+}
+
+/* Tombol Load & Hapus preset */
+.btn-preset-load,
+.btn-preset-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.4rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.btn-preset-load {
+  background-color: rgba(34,211,238,0.1);
+  color: #22D3EE;
+  border-color: rgba(34,211,238,0.2);
+}
+.btn-preset-load:hover {
+  background-color: rgba(34,211,238,0.2);
+}
+
+.btn-preset-delete {
+  background-color: rgba(248,113,113,0.08);
+  color: #F87171;
+  border-color: rgba(248,113,113,0.15);
+}
+.btn-preset-delete:hover {
+  background-color: rgba(248,113,113,0.18);
+}
+
+.btn-preset-load:active,
+.btn-preset-delete:active {
+  transform: scale(0.95);
+}

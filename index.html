@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio Gear &amp; PEQ Tracker</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              950: '#0F172A',
+              900: '#0F1E2E',
+            },
+            amber: {
+              400: '#FBBF24',
+              500: '#F59E0B',
+            },
+            cyan: {
+              400: '#22D3EE',
+              500: '#06B6D4',
+            }
+          },
+          fontFamily: {
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+
+  <!-- ===== HEADER ===== -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Icon -->
+        <div class="w-9 h-9 rounded-lg bg-amber-500/20 flex items-center justify-center border border-amber-500/30">
+          <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+              d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-semibold text-slate-100 leading-tight">Audio Gear & PEQ Tracker</h1>
+          <p class="text-xs text-slate-500 font-mono hidden sm:block">personal audiophile log</p>
+        </div>
+      </div>
+      <!-- Tombol Tambah -->
+      <button id="btn-open-modal"
+        class="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-200 hover:shadow-[0_0_16px_rgba(251,191,36,0.4)] active:scale-95">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+        </svg>
+        <span>Tambah Gear</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+
+    <!-- Filter Bar -->
+    <div class="filter-bar mb-8 space-y-2">
+
+      <!-- Baris 1: Filter Kategori -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        <span class="filter-row-label">kategori:</span>
+        <button data-filter-type="category" data-filter="Semua"
+          class="filter-tab active-tab whitespace-nowrap text-sm font-medium px-4 py-1.5 rounded-full border transition-all duration-200">
+          Semua
+        </button>
+        <button data-filter-type="category" data-filter="IEM"
+          class="filter-tab whitespace-nowrap text-sm font-medium px-4 py-1.5 rounded-full border transition-all duration-200">
+          IEM
+        </button>
+        <button data-filter-type="category" data-filter="DAC/Dongle"
+          class="filter-tab whitespace-nowrap text-sm font-medium px-4 py-1.5 rounded-full border transition-all duration-200">
+          DAC/Dongle
+        </button>
+        <button data-filter-type="category" data-filter="Eartips"
+          class="filter-tab whitespace-nowrap text-sm font-medium px-4 py-1.5 rounded-full border transition-all duration-200">
+          Eartips
+        </button>
+      </div>
+
+      <!-- Baris 2: Filter Status -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        <span class="filter-row-label">status:</span>
+        <button data-filter-type="status" data-filter="Semua"
+          class="filter-tab-status active-status whitespace-nowrap text-sm font-medium px-4 py-1.5 rounded-full border transition-all duration-200">
+          Semua
+        </button>
+        <button data-filter-type="status" data-filter="Aktif"
+          class="filter-tab-status whitespace-nowrap text-sm font-medium px-4 py-1.5 rounded-full border transition-all duration-200">
+          Aktif
+        </button>
+        <button data-filter-type="status" data-filter="Arsip"
+          class="filter-tab-status whitespace-nowrap text-sm font-medium px-4 py-1.5 rounded-full border transition-all duration-200">
+          Arsip
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Stat Bar -->
+    <div id="stat-bar" class="text-xs text-slate-500 font-mono mb-5"></div>
+
+    <!-- Grid Cards -->
+    <div id="gear-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden flex-col items-center justify-center py-24 text-center">
+      <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center mb-4 border border-slate-700">
+        <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+        </svg>
+      </div>
+      <p class="text-slate-400 font-medium mb-1">Belum ada gear</p>
+      <p class="text-slate-600 text-sm">Klik "Tambah Gear" untuk mulai mencatat koleksimu.</p>
+    </div>
+
+    <!-- ===== PEQ COMBINATION TABLE ===== -->
+    <section id="peq-section" class="mt-14">
+
+      <!-- Section Header -->
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-1 h-6 rounded-full bg-amber-400 opacity-80"></div>
+        <h2 class="text-base font-semibold text-slate-200">Parametric EQ — Kombinasi Gear</h2>
+        <span class="text-xs font-mono text-slate-600 ml-auto">10-band PEQ</span>
+      </div>
+
+      <!-- Combo Selectors -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+        <div>
+          <label class="form-label" for="peq-sel-iem">IEM</label>
+          <select id="peq-sel-iem" class="form-input">
+            <option value="">— Pilih IEM —</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="peq-sel-dac">DAC / Dongle</label>
+          <select id="peq-sel-dac" class="form-input">
+            <option value="">— Pilih DAC/Dongle —</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="peq-sel-eartips">Eartips</label>
+          <select id="peq-sel-eartips" class="form-input">
+            <option value="">— Pilih Eartips —</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Combo Label + Save button -->
+      <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+        <div id="peq-combo-label" class="text-xs font-mono text-slate-500 italic">Pilih kombinasi gear di atas untuk mulai...</div>
+        <button id="btn-save-peq"
+          class="flex items-center gap-2 bg-cyan-500/20 border border-cyan-500/30 hover:bg-cyan-500/30 text-cyan-400 text-sm font-medium px-4 py-1.5 rounded-lg transition-all duration-200 hover:shadow-[0_0_12px_rgba(34,211,238,0.2)] active:scale-95">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+              d="M8 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3m-1-4-3-3m0 0-3 3m3-3v12" />
+          </svg>
+          Simpan PEQ
+        </button>
+      </div>
+
+      <!-- PEQ Table -->
+      <div class="peq-table-wrap overflow-x-auto rounded-xl border border-slate-800">
+        <table class="peq-table w-full min-w-[620px]">
+          <thead>
+            <tr>
+              <th class="peq-th w-14 text-center">#</th>
+              <th class="peq-th">Filter Type</th>
+              <th class="peq-th">Freq (Hz)</th>
+              <th class="peq-th">Gain (dB)</th>
+              <th class="peq-th">Q / BW</th>
+              <th class="peq-th w-32">Enabled</th>
+            </tr>
+          </thead>
+          <tbody id="peq-tbody">
+            <!-- 10 baris diisi oleh JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PEQ Saved List -->
+      <div id="peq-saved-list" class="mt-8 space-y-3"></div>
+
+    </section>
+
+  </main>
+
+  <!-- ===== MODAL FORM ===== -->
+  <div id="modal-overlay"
+    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+    <div id="modal-box"
+      class="modal-enter w-full max-w-lg bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
+
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+        <h2 id="modal-title" class="text-base font-semibold text-slate-100">Tambah Gear Baru</h2>
+        <button id="btn-close-modal"
+          class="text-slate-500 hover:text-slate-300 transition-colors w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body / Form -->
+      <form id="gear-form" class="px-6 py-5 space-y-5">
+        <input type="hidden" id="gear-id" />
+
+        <!-- Nama Gear -->
+        <div>
+          <label class="form-label" for="gear-name">Nama Gear</label>
+          <input type="text" id="gear-name" placeholder="cth: Moondrop Blessing 3"
+            class="form-input" required />
+        </div>
+
+        <!-- Kategori -->
+        <div>
+          <label class="form-label" for="gear-category">Kategori</label>
+          <select id="gear-category" class="form-input" required>
+            <option value="" disabled selected>Pilih kategori...</option>
+            <option value="IEM">IEM</option>
+            <option value="DAC/Dongle">DAC/Dongle</option>
+            <option value="Eartips">Eartips</option>
+          </select>
+        </div>
+
+        <!-- Keterangan -->
+        <div>
+          <label class="form-label" for="gear-notes">Keterangan</label>
+          <input type="text" id="gear-notes" placeholder="cth: warm signature, tight bass, good staging..."
+            class="form-input" />
+        </div>
+
+        <!-- Status -->
+        <div>
+          <label class="form-label mb-2 block">Status</label>
+          <div class="flex gap-6">
+            <label class="radio-label">
+              <input type="radio" name="gear-status" value="Aktif" class="sr-only" checked />
+              <span class="radio-custom"></span>
+              <span class="text-sm text-slate-300">Aktif</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="gear-status" value="Arsip" class="sr-only" />
+              <span class="radio-custom"></span>
+              <span class="text-sm text-slate-300">Arsip</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-3 pt-2">
+          <button type="button" id="btn-cancel-form"
+            class="flex-1 py-2.5 rounded-lg border border-slate-700 text-slate-400 text-sm font-medium hover:bg-slate-800 hover:text-slate-200 transition-all duration-200">
+            Batal
+          </button>
+          <button type="submit" id="btn-submit-form"
+            class="flex-1 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-sm font-semibold transition-all duration-200 hover:shadow-[0_0_16px_rgba(251,191,36,0.35)] active:scale-95">
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast"
+    class="fixed bottom-6 right-6 z-[60] hidden items-center gap-3 bg-slate-800 border border-slate-700 text-slate-200 text-sm font-medium px-4 py-3 rounded-xl shadow-xl transition-all duration-300">
+    <span id="toast-icon"></span>
+    <span id="toast-message"></span>
+  </div>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
